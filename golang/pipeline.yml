@@ -1,0 +1,29 @@
+version: "1.1"
+stages:
+  - stage:
+      - git-checkout:
+          alias: git-checkout
+          description: 代码仓库克隆
+  - stage:
+      - golang:
+          alias: go-demo
+          description: golang action
+          params:
+            command: go build -o server main.go
+            context: ${git-checkout}
+            service: server
+            target: server
+  - stage:
+      - release:
+          alias: release
+          description: 用于打包完成时，向dicehub 提交完整可部署的dice.yml。用户若没在pipeline.yml里定义该action，CI会自动在pipeline.yml里插入该action
+          params:
+            dice_yml: ${git-checkout}/erda.yml
+            image:
+              go-demo: ${go-demo:OUTPUT:image}
+  - stage:
+      - dice:
+          alias: dice
+          description: 用于 dice 平台部署应用服务
+          params:
+            release_id: ${release:OUTPUT:releaseID}

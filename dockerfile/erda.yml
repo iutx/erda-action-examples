@@ -1,0 +1,12 @@
+version: "2.0"
+services:
+  axum-demo:
+    ports:
+      - port: 3000
+        expose: true
+    resources:
+      cpu: 0.2
+      mem: 20
+    deployments:
+      replicas: 1
+envs: {}

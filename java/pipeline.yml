@@ -1,0 +1,26 @@
+version: 1.1
+stages:
+  - stage:
+      - git-checkout:
+          alias: git-checkout
+          description: 代码仓库克隆
+  - stage:
+      - java:
+          alias: java-demo
+          params:
+            build_type: maven
+            workdir: ${git-checkout}
+            target: ./target/docker-java-app-example.jar
+            container_type: spring-boot
+
+  - stage:
+      - release:
+          params:
+            dice_yml: ${git-checkout}/dice.yml
+            image:
+              java-demo: ${java-demo:OUTPUT:image}
+
+  - stage:
+      - dice:
+          params:
+            release_id: ${release:OUTPUT:releaseID}

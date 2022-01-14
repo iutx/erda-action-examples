@@ -1,0 +1,12 @@
+version: "2.0"
+services:
+  flask-demo:
+    ports:
+      - port: 9090
+        expose: true
+    resources:
+      cpu: 0.1
+      mem: 20
+    deployments:
+      replicas: 1
+envs: { }

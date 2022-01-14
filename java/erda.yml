@@ -1,0 +1,11 @@
+version: "2.0"
+services:
+  java-demo:
+    ports:
+      - port: 8080
+        expose: true
+    resources:
+      cpu: 0.2
+      mem: 512
+    deployments:
+      replicas: 1

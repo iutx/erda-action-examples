@@ -1,0 +1,17 @@
+version: "2.0"
+services:
+  go-demo:
+    ports:
+      - port: 8080
+        expose: true
+    resources:
+      cpu: 0.2
+      mem: 20
+    deployments:
+      replicas: 1
+    health_check:
+      http:
+        port: 8080
+        path: /ping
+        duration: 300
+envs: {}
